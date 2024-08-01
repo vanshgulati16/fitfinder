@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 // };
 
 export const metadata = {
-  metadataBase: new URL(`https://${process.env.VERCEL_URL}`),
+  // metadataBase: new URL(`https://${process.env.VERCEL_URL}`),
   title: {
     default: 'Fitfinder',
     template: `%s - Fitfinder`
