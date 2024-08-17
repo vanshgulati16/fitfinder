@@ -17,6 +17,7 @@ import {
 import { BodyTypeSelector } from "./bodytype";
 import { SkinToneSelector } from "./skinTone";
 import { ClothingOptions } from "./clothsoption";
+import FetchProductList from '../app/util/database'
 
 const OutfitSelector = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -86,6 +87,26 @@ const OutfitSelector = () => {
       Jacket: [],
     });
   };
+
+  const generateOutfits = async () => {
+    var data = await FetchProductList("Men Topwear","Black","2000","4.5")
+    var data2 = await FetchProductList("Formal Trousers For Men","Black","5000","2")
+    console.log(data)
+    console.log(data2)
+    data = data.concat(data2);
+    
+    fetch("/api/main", { 
+    method: "POST", 
+
+    body: JSON.stringify({ 
+      prompt: "From the given data of shirts and pants, suggest a 5 date outfits for me, My height is 6ft , i have brownish skin tone, indian origin, black hair, slim body under 12000rs from the given data. Also give the response in json format like array of this object {topWear: {name , price, image, link }, bottomWear : {name , price, image, link}}", 
+      data: data, 
+    }), 
+    }) 
+    .then(response => response.json()) 
+    .then(json => console.log(json)); 
+
+}
 
   const closeOptions = () => {
     setShowOptions(null);
@@ -379,7 +400,7 @@ const OutfitSelector = () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Button className="w-full bg-green-700 hover:bg-green-800 text-white">
+        <Button className="w-full bg-green-700 hover:bg-green-800 text-white" onClick={generateOutfits}>
           Show outfit
         </Button>
       </div>
